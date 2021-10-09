@@ -9,4 +9,13 @@ stages:
     jobs:
     - job: 
       steps: 
- 
+      - task: AzureResourceManagerTemplateDeployment@3
+        inputs:
+          deploymentScope: 'Subscription'
+          azureResourceManagerConnection: 'Visual Studio Ultimate with MSDN(3f4b1df0-5d35-4ac1-a042-6a2eccf5bf1a)'
+          subscriptionId: '3f4b1df0-5d35-4ac1-a042-6a2eccf5bf1a'
+          location: 'East US'
+          templateLocation: 'Linked artifact'
+          csmFile: '$(Pipeline.Workspace)\iac\policy.bicep'
+          csmParametersFile: '$(Pipeline.Workspace)\iac\policy.parameters.json'
+          deploymentMode: 'Incremental'
