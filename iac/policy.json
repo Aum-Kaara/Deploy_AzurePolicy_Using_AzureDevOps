@@ -1,0 +1,62 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+       "policyName": {
+      "type": "string"
+    },
+      "policyDisplayName": {
+      "type": "string"
+    },
+      "policyDescription": {
+      "type": "string"
+    }
+  },
+  "resources": [
+      {
+          "type": "Microsoft.Authorization/policyDefinitions",
+          "name": "[parameters('policyName')]",
+          "apiVersion": "2019-09-01",
+          "properties": {
+              "displayName": "[parameters('policyDisplayName')]",
+              "policyType": "Custom",
+              "description": "[parameters('policyDescription')]",
+              "metadata": {
+                  "category": "General"
+              },
+              "mode": "All",
+              "parameters": {
+                  "allowedLocations": {
+                      "type": "Array",
+                      "metadata": {
+                          "displayName": "Allowed locations",
+                          "description": "The list of locations that can be specified when deploying resources.",
+                          "strongType": "location"
+                      }
+                  }
+              },
+              "policyRule": {
+                  "if": {
+                      "allOf": [
+                          {
+                              "field": "location",
+                              "notIn": "[[parameters('allowedLocations')]" //Use an additional left bracket here, so the function is not invoked in the ARM template itself
+                          },
+                          {
+                              "field": "location",
+                              "notEquals": "global"
+                          },
+                          {
+                              "field": "type",
+                              "notEquals": "Microsoft.AzureActiveDirectory/b2cDirectories"
+                          }
+                      ]
+                  },
+                  "then": {
+                      "effect": "Deny"
+                  }
+              }
+          }
+      }
+  ]
+}

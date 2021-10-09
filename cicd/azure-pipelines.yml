@@ -28,6 +28,6 @@ stages:
           subscriptionId: '3f4b1df0-5d35-4ac1-a042-6a2eccf5bf1a'
           location: 'East US'
           templateLocation: 'Linked artifact'
-          csmFile: '$(Build.ArtifactStagingDirectory)\artifacts\policy.bicep'
+          csmFile: '$(Build.ArtifactStagingDirectory)\artifacts\policy.json'
           csmParametersFile: '$(Build.ArtifactStagingDirectory)\artifacts\policy.parameters.json'
           deploymentMode: 'Incremental'
