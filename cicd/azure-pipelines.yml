@@ -9,6 +9,18 @@ stages:
     jobs:
     - job: 
       steps: 
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(System.DefaultWorkingDirectory)\iac\'
+          Contents: '**'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)\artifacts'
+          
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: '$(Build.ArtifactStagingDirectory)\artifacts'
+          ArtifactName: 'artifact'
+          publishLocation: pipeline
+        
       - task: AzureResourceManagerTemplateDeployment@3
         inputs:
           deploymentScope: 'Subscription'
@@ -16,6 +28,6 @@ stages:
           subscriptionId: '3f4b1df0-5d35-4ac1-a042-6a2eccf5bf1a'
           location: 'East US'
           templateLocation: 'Linked artifact'
-          csmFile: '..\iac\policy.bicep'
-          csmParametersFile: '..\iac\policy.parameters.json'
+          csmFile: '$(Pipeline.Workspace)\artifact\policy.bicep'
+          csmParametersFile: '$(Pipeline.Workspace)\artifact\policy.parameters.json'
           deploymentMode: 'Incremental'
