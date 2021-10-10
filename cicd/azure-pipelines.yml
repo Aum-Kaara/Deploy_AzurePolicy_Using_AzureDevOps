@@ -24,8 +24,8 @@ stages:
       - task: AzureResourceManagerTemplateDeployment@3
         inputs:
           deploymentScope: 'Subscription'
-          azureResourceManagerConnection: 'Visual Studio Ultimate with MSDN(3f4b1df0-5d35-4ac1-a042-6a2eccf5bf1a)'
-          subscriptionId: '3f4b1df0-5d35-4ac1-a042-6a2eccf5bf1a'
+          azureResourceManagerConnection: 'Visual Studio Ultimate with MSDN(Subscription)'
+          subscriptionId: 'Subscription'
           location: 'East US'
           templateLocation: 'Linked artifact'
           csmFile: '$(Build.ArtifactStagingDirectory)\artifacts\policy.json'
